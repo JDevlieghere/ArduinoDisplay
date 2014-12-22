@@ -74,10 +74,13 @@ public class SerialConnection implements SerialPortEventListener {
     public void serialEvent(SerialPortEvent serialPortEvent) {
         if (serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
-                String inputLine = input.readLine();
-                log.info(inputLine);
+                if(input.ready()){
+                    String inputLine = input.readLine();
+                    if(inputLine.length() > 0)
+                        log.info("Received: " + inputLine);
+                }
             } catch (Exception e) {
-                log.error(e.toString());
+                log.warn(e.toString());
             }
         }
     }
