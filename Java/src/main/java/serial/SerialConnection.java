@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 
 public class SerialConnection implements SerialPortEventListener {
@@ -20,6 +22,8 @@ public class SerialConnection implements SerialPortEventListener {
 
     private SerialPort serialPort;
     private BufferedReader input;
+    private PrintWriter output;
+
 
     public void initialize(String port) {
 
@@ -50,6 +54,7 @@ public class SerialConnection implements SerialPortEventListener {
 
             // Open the streams
             input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+            output = new PrintWriter(new OutputStreamWriter(serialPort.getOutputStream()));
 
             // Add event listeners
             serialPort.addEventListener(this);
@@ -57,6 +62,19 @@ public class SerialConnection implements SerialPortEventListener {
         } catch (Exception e) {
            log.error(e.toString());
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            @Override
+            public void run() {
+                log.info("Shutting Down");
+                close();
+            }
+        });
+    }
+
+    public void write(String s){
+        output.println(s);
+        output.flush();
     }
 
     public synchronized void close() {

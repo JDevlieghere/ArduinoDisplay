@@ -2,7 +2,7 @@ package main;
 
 import serial.SerialConnection;
 import twitter.QueryProducer;
-import twitter.TwitterConsumer;
+import serial.SerialConsumer;
 import twitter.UserProducer;
 import twitter4j.FilterQuery;
 import twitter4j.Status;
@@ -24,18 +24,21 @@ public class Main {
         p.start();
 
         // Add another producer
-        QueryProducer q = new QueryProducer(queue);
-        FilterQuery fq = new FilterQuery();
-        String keywords[] = {"Belgium"};
-        fq.track(keywords);
-        q.start(fq);
+        if(args.length > 0) {
+            QueryProducer q = new QueryProducer(queue);
+            FilterQuery fq = new FilterQuery();
+            fq.track(args);
+            q.start(fq);
+        }
 
         // Connect to Serial Port
         SerialConnection sc = new SerialConnection();
         sc.initialize("COM8");
 
+        sc.write("Twitter Display Connected!");
+
         // Create consumer
-        TwitterConsumer c = new TwitterConsumer(queue, sc.getSerialPort(), 5);
+        SerialConsumer c = new SerialConsumer(queue, sc, 5);
         new Thread(c).start();
 
     }
