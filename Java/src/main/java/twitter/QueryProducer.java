@@ -22,7 +22,7 @@ public class QueryProducer extends Producer {
     private StatusListener listener = new StatusListener(){
 
         public void onStatus(Status status) {
-            getQueue().offer(status);
+            getQueue().offer("@" + status.getUser().getScreenName() + " " + status.getText());
         }
 
         @Override

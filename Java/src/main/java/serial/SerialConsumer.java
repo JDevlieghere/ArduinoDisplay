@@ -2,7 +2,6 @@ package serial;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import twitter4j.Status;
 
 import java.util.concurrent.BlockingQueue;
 
@@ -27,17 +26,13 @@ public class SerialConsumer implements Runnable {
         try {
             while (true) {
                 // Get status
-                Status s = (Status) blockingQueue.take();
-                String status = "@" + s.getUser().getScreenName() + " " + s.getText();
+                String s = (String) blockingQueue.take();
+                String msg = s.replace("\n", "");
 
-                // Remove line breaks
-                status = status.replace("\n", "");
-
-                serialConnection.write(status);
+                serialConnection.write(msg);
 
                 // Debugging info
-                log.debug("Message sent to COM: " + status);
-                log.debug("Messages remaning in queue: " + blockingQueue.size());
+                log.debug("Message sent to COM: " + msg);
 
                 // Sleep
                 Thread.sleep(SECOND*rate);

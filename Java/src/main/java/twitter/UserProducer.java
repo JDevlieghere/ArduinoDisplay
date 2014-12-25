@@ -27,7 +27,7 @@ public class UserProducer extends Producer {
 
         @Override
         public void onStatus(Status status) {
-            getQueue().offer(status);
+            getQueue().offer("@" + status.getUser().getScreenName() + " " + status.getText());
         }
 
         @Override
@@ -63,22 +63,24 @@ public class UserProducer extends Producer {
 
         @Override
         public void onFavorite(User user, User user1, Status status) {
-
+            getQueue().offer("@" + user.getScreenName() + " favorited your status \"" + status.getText() + "\"");
         }
 
         @Override
         public void onUnfavorite(User user, User user1, Status status) {
+            getQueue().offer("@" + user.getScreenName() + " unfavorited your status \"" + status.getText() + "\"");
 
         }
 
         @Override
         public void onFollow(User user, User user1) {
+            getQueue().offer("@" + user.getScreenName() + " started following you");
 
         }
 
         @Override
         public void onUnfollow(User user, User user1) {
-
+            getQueue().offer("@" + user.getScreenName() + " stopped following you");
         }
 
         @Override

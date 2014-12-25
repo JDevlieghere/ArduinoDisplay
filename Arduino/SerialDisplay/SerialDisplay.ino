@@ -31,11 +31,12 @@ void print(String s){
     if(start + LCD_ROWS >= s.length()){
       end = s.length();
     }else{
-      end = start  + LCD_ROWS;
+      end = start + LCD_ROWS;
     }
     lcd.setCursor(0,currentLine++);
     String line = s.substring(start, end);
     lcd.print(line);
+    Serial.println(line);
   }
   delay(100);
 }
