@@ -1,4 +1,4 @@
-package twitter;
+package common;
 
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;

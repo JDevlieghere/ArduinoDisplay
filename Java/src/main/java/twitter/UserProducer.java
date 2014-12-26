@@ -1,5 +1,7 @@
 package twitter;
 
+import common.Message;
+import common.Producer;
 import org.slf4j.Logger;
 import twitter4j.*;
 
@@ -27,7 +29,8 @@ public class UserProducer extends Producer {
 
         @Override
         public void onStatus(Status status) {
-            getQueue().offer("@" + status.getUser().getScreenName() + " " + status.getText());
+            Message message = new Message("@" + status.getUser().getScreenName() + " " + status.getText());
+            getQueue().offer(message);
         }
 
         @Override
@@ -63,24 +66,29 @@ public class UserProducer extends Producer {
 
         @Override
         public void onFavorite(User user, User user1, Status status) {
-            getQueue().offer("@" + user.getScreenName() + " favorited your status \"" + status.getText() + "\"");
+            Message message = new Message("@" + user.getScreenName() + " favorited your status \"" + status.getText() + "\"", 10 * Message.SECOND);
+            getQueue().offer(message);
         }
 
         @Override
         public void onUnfavorite(User user, User user1, Status status) {
-            getQueue().offer("@" + user.getScreenName() + " unfavorited your status \"" + status.getText() + "\"");
+            Message message = new Message("@" + user.getScreenName() + " unfavorited your status \"" + status.getText() + "\"", 10 * Message.SECOND);
+            getQueue().offer(message);
+
 
         }
 
         @Override
         public void onFollow(User user, User user1) {
-            getQueue().offer("@" + user.getScreenName() + " started following you");
+            Message message = new Message("@" + user.getScreenName() + " started following @" + user1.getScreenName(), 10 * Message.SECOND);
+            getQueue().offer(message);
 
         }
 
         @Override
         public void onUnfollow(User user, User user1) {
-            getQueue().offer("@" + user.getScreenName() + " stopped following you");
+            Message message = new Message("@" + user.getScreenName() + " stopped following @" + user1.getScreenName(), 10 * Message.SECOND);
+            getQueue().offer(message);
         }
 
         @Override

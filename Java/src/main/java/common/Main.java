@@ -1,4 +1,4 @@
-package main;
+package common;
 
 import serial.SerialConnection;
 import serial.SerialConsumer;
@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) throws TwitterException, IOException {
 
         // Create a queue for storing statusses
-        BlockingQueue<String> queue = new LinkedBlockingQueue<String>(1000);
+        BlockingQueue<Message> queue = new LinkedBlockingQueue<Message>(1000);
 
         // Create the timeline producer
         UserProducer p = new UserProducer(queue);
@@ -38,6 +38,8 @@ public class Main {
         SerialConsumer c = new SerialConsumer(queue, sc, 5);
         new Thread(c).start();
 
+        // Enable display
+        sc.write("_ENABLE");
     }
 
 }

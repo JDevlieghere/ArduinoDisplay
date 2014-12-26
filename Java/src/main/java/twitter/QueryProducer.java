@@ -1,5 +1,7 @@
 package twitter;
 
+import common.Message;
+import common.Producer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.*;
@@ -22,7 +24,7 @@ public class QueryProducer extends Producer {
     private StatusListener listener = new StatusListener(){
 
         public void onStatus(Status status) {
-            getQueue().offer("@" + status.getUser().getScreenName() + " " + status.getText());
+            getQueue().offer(new Message("@" + status.getUser().getScreenName() + " " + status.getText()));
         }
 
         @Override

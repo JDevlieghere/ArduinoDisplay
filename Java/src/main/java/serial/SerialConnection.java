@@ -73,7 +73,7 @@ public class SerialConnection implements SerialPortEventListener {
     }
 
     public void write(String s){
-        output.println(s);
+        output.print(s);
         output.flush();
     }
 

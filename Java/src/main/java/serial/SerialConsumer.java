@@ -1,5 +1,6 @@
 package serial;
 
+import common.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +27,11 @@ public class SerialConsumer implements Runnable {
         try {
             while (true) {
                 // Get status
-                String s = (String) blockingQueue.take();
-                String msg = s.replace("\n", "");
+                Message message = (Message) blockingQueue.take();
+
+                // Remove newlines and non ASCII characters
+                String s = message.getText();
+                String msg = s.replaceAll("\n", "").replaceAll("[^\\x00-\\x7F]", "").replaceAll("https?://\\S+\\s?", "");
 
                 serialConnection.write(msg);
 
@@ -35,7 +39,7 @@ public class SerialConsumer implements Runnable {
                 log.debug("Message sent to COM: " + msg);
 
                 // Sleep
-                Thread.sleep(SECOND*rate);
+                Thread.sleep(message.getDelay());
             }
         } catch (InterruptedException e) {
             log.error(e.toString());
