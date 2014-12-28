@@ -31,7 +31,7 @@ public class SerialConsumer implements Runnable {
 
                 // Remove newlines and non ASCII characters
                 String s = message.getText();
-                String msg = s.replaceAll("\n", "").replaceAll("[^\\x00-\\x7F]", "").replaceAll("https?://\\S+\\s?", "");
+                String msg = s.replaceAll("\n", " ").replaceAll("[^\\x00-\\x7F]", "").replaceAll("https?://\\S+\\s?", "");
 
                 serialConnection.write(msg);
 

@@ -38,8 +38,7 @@ public class SerialConnection implements SerialPortEventListener {
             }
         }
         if (portId == null) {
-            log.error("Could not find COM port.");
-            return;
+            throw new IllegalArgumentException("Could not find COM port.");
         }
 
         try {
@@ -66,15 +65,19 @@ public class SerialConnection implements SerialPortEventListener {
         Runtime.getRuntime().addShutdownHook(new Thread(){
             @Override
             public void run() {
-                log.info("Shutting Down");
-                close();
+            log.info("Shutting Down");
+            close();
             }
         });
     }
 
-    public void write(String s){
-        output.print(s);
-        output.flush();
+    public void write(String s) {
+        if (output != null){
+            output.print(s);
+            output.flush();
+        }else {
+            throw new IllegalStateException("Cannot write when not connected");
+        }
     }
 
     public synchronized void close() {
