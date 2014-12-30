@@ -19,16 +19,17 @@ public class Server
 
     private final BlockingQueue<Message> queue;
     private final SerialConnection serialConnection;
-    private final List<Thread> components;
+
+    private List<Thread> components;
 
     public Server()
     {
         this.queue = new LinkedBlockingQueue();
-        this.components = new ArrayList<>();
         this.serialConnection = new SerialConnection();
     }
 
     public void init(String com){
+        this.components = new ArrayList<>();
         // Initialize COM
         this.serialConnection.initialize(com);
 
@@ -40,6 +41,8 @@ public class Server
     public void start(){
         // Start All Threads
         components.forEach(java.lang.Thread::start);
+        // Log
+        log.info("Server started");
     }
 
     public void addComponent(Component component){
@@ -53,5 +56,7 @@ public class Server
         // Disconnect
         this.serialConnection.write(DISABLE);
         this.serialConnection.close();
+        // Log
+        log.info("Server stopped");
     }
 }

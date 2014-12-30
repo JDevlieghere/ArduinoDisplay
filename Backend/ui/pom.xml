@@ -46,7 +46,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>twitter.TwitterMain</mainClass>
+                            <mainClass>ui.MainApplication</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
