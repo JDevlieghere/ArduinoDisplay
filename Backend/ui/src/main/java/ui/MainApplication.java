@@ -49,7 +49,6 @@ public class MainApplication extends Application {
         SHUTDOWN_HOOK.run();
     }
 
-
     private static class ShutdownHook extends Thread {
 
         private Set<Runnable> tasks = Collections.newSetFromMap(new ConcurrentHashMap<>());

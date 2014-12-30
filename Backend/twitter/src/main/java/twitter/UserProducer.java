@@ -6,14 +6,14 @@ import core.Message;
 import core.Component;
 import twitter4j.*;
 
-public class TwitterProducer extends Component {
+public class UserProducer extends Component {
 
     public static final Filter TWITTER_FILTER = new TwitterFilter();
 
-    private final Logger log = org.slf4j.LoggerFactory.getLogger(TwitterProducer.class);
+    private final Logger log = org.slf4j.LoggerFactory.getLogger(UserProducer.class);
     private final TwitterStream twitterStream;
 
-    public TwitterProducer() {
+    public UserProducer() {
         this.twitterStream = new TwitterStreamFactory().getInstance();
     }
 

@@ -25,6 +25,7 @@ public class Server
     public Server()
     {
         this.queue = new LinkedBlockingQueue();
+        this.components = new ArrayList<>();
         this.serialConnection = new SerialConnection();
     }
 
@@ -54,8 +55,13 @@ public class Server
         // Stop all components
         components.forEach(java.lang.Thread::interrupt);
         // Disconnect
-        this.serialConnection.write(DISABLE);
-        this.serialConnection.close();
+        try {
+            this.serialConnection.write(DISABLE);
+            this.serialConnection.close();
+        } catch (IllegalStateException ignored){
+
+        }
+
         // Log
         log.info("Server stopped");
     }
