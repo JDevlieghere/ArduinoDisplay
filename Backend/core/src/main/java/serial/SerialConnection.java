@@ -24,7 +24,6 @@ public class SerialConnection implements SerialPortEventListener {
     private BufferedReader input;
     private PrintWriter output;
 
-
     public void initialize(String port) {
 
         CommPortIdentifier portId = null;
@@ -87,10 +86,6 @@ public class SerialConnection implements SerialPortEventListener {
         }
     }
 
-    public SerialPort getSerialPort(){
-        return this.serialPort;
-    }
-
     @Override
     public void serialEvent(SerialPortEvent serialPortEvent) {
         if (serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
@@ -98,7 +93,7 @@ public class SerialConnection implements SerialPortEventListener {
                 if(input.ready()){
                     String inputLine = input.readLine();
                     if(inputLine.length() > 0)
-                        log.info("Received: " + inputLine);
+                        log.info("Received from COM: " + inputLine);
                 }
             } catch (Exception e) {
                 log.warn(e.toString());

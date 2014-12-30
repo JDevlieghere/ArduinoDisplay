@@ -2,8 +2,7 @@ package core;
 
 import java.util.concurrent.BlockingQueue;
 
-public abstract class Producer
-        implements Runnable
+public abstract class Component implements Runnable
 {
     private BlockingQueue queue;
 
@@ -12,8 +11,7 @@ public abstract class Producer
         this.queue = queue;
     }
 
-    public BlockingQueue getQueue()
-    {
+    public BlockingQueue getQueue(){
         return this.queue;
     }
 }

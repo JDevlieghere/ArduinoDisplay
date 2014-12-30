@@ -1,42 +1,37 @@
 package serial;
 
+import core.Component;
 import core.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.BlockingQueue;
-
-public class SerialConsumer implements Runnable {
-
+public class SerialConsumer extends Component {
 
     private final Logger log = LoggerFactory.getLogger(SerialConsumer.class);
 
-    private final BlockingQueue blockingQueue;
     private final SerialConnection serialConnection;
 
-    public SerialConsumer(BlockingQueue blockingQueue, SerialConnection serialConnection, int rate) {
-        this.blockingQueue = blockingQueue;
+    public SerialConsumer(SerialConnection serialConnection, int rate) {
         this.serialConnection = serialConnection;
     }
 
     @Override
     public void run() {
-        try {
-            while (true) {
-                // Get status
-                Message message = (Message) blockingQueue.take();
+        while (true) {
+            try {
+                // Send message
+                Message message = (Message) getQueue().take();
+                String text = message.getText();
+                serialConnection.write(text);
 
-                String msg = message.getText();
-                serialConnection.write(msg);
-
-                // Debugging info
-                log.debug("Message sent to COM: " + msg);
+                // Debugging
+                log.debug("Message sent to COM: " + text);
 
                 // Sleep
                 Thread.sleep(message.getDelay());
+            } catch (InterruptedException e) {
+                return;
             }
-        } catch (InterruptedException e) {
-            log.error(e.toString());
         }
     }
 

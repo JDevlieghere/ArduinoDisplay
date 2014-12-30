@@ -3,10 +3,10 @@ package twitter;
 import core.Filter;
 import org.slf4j.Logger;
 import core.Message;
-import core.Producer;
+import core.Component;
 import twitter4j.*;
 
-public class TwitterProducer extends Producer {
+public class TwitterProducer extends Component {
 
     public static final Filter TWITTER_FILTER = new TwitterFilter();
 
