@@ -1,23 +1,18 @@
 package twitter;
 
-import common.Message;
-import common.Producer;
 import org.slf4j.Logger;
+import display.Message;
+import display.Producer;
 import twitter4j.*;
 
-import java.util.concurrent.BlockingQueue;
+public class TwitterProducer extends Producer {
 
-public class UserProducer extends Producer {
+    private final Logger log = org.slf4j.LoggerFactory.getLogger(TwitterProducer.class);
 
-    private final Logger log = org.slf4j.LoggerFactory.getLogger(UserProducer.class);
+    private final TwitterStream twitterStream;
 
-    public UserProducer(BlockingQueue queue) {
-        super(queue);
-    }
-
-    public void start(){
-        this.getTwitterStream().addListener(listener);
-        this.getTwitterStream().user();
+    public TwitterProducer() {
+        this.twitterStream = new TwitterStreamFactory().getInstance();
     }
 
     private UserStreamListener listener = new UserStreamListener(){
@@ -66,13 +61,13 @@ public class UserProducer extends Producer {
 
         @Override
         public void onFavorite(User user, User user1, Status status) {
-            Message message = new Message("@" + user.getScreenName() + " favorited your status \"" + status.getText() + "\"", 10 * Message.SECOND);
+            Message message = new Message("@" + user.getScreenName() + " favorited \"" + status.getText() + "\"", 10 * Message.SECOND);
             getQueue().offer(message);
         }
 
         @Override
         public void onUnfavorite(User user, User user1, Status status) {
-            Message message = new Message("@" + user.getScreenName() + " unfavorited your status \"" + status.getText() + "\"", 10 * Message.SECOND);
+            Message message = new Message("@" + user.getScreenName() + " unfavorited \"" + status.getText() + "\"", 10 * Message.SECOND);
             getQueue().offer(message);
 
 
@@ -147,4 +142,9 @@ public class UserProducer extends Producer {
         }
     };
 
+    @Override
+    public void run() {
+        this.twitterStream.addListener(listener);
+        this.twitterStream.user();
+    }
 }
