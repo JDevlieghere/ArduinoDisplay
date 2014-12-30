@@ -1,7 +1,7 @@
 package twitter;
 
-import display.Producer;
-import display.Server;
+import core.Producer;
+import core.Server;
 
 public class TwitterMain {
 

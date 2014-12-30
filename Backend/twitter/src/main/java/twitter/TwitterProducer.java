@@ -1,14 +1,16 @@
 package twitter;
 
+import core.Filter;
 import org.slf4j.Logger;
-import display.Message;
-import display.Producer;
+import core.Message;
+import core.Producer;
 import twitter4j.*;
 
 public class TwitterProducer extends Producer {
 
-    private final Logger log = org.slf4j.LoggerFactory.getLogger(TwitterProducer.class);
+    public static final Filter TWITTER_FILTER = new TwitterFilter();
 
+    private final Logger log = org.slf4j.LoggerFactory.getLogger(TwitterProducer.class);
     private final TwitterStream twitterStream;
 
     public TwitterProducer() {
@@ -24,7 +26,7 @@ public class TwitterProducer extends Producer {
 
         @Override
         public void onStatus(Status status) {
-            Message message = new Message("@" + status.getUser().getScreenName() + " " + status.getText());
+            Message message = new Message("@" + status.getUser().getScreenName() + " " + status.getText(), TWITTER_FILTER);
             getQueue().offer(message);
         }
 
@@ -61,13 +63,13 @@ public class TwitterProducer extends Producer {
 
         @Override
         public void onFavorite(User user, User user1, Status status) {
-            Message message = new Message("@" + user.getScreenName() + " favorited \"" + status.getText() + "\"", 10 * Message.SECOND);
+            Message message = new Message("@" + user.getScreenName() + " favorited \"" + status.getText() + "\"", TWITTER_FILTER, 10 * Message.SECOND);
             getQueue().offer(message);
         }
 
         @Override
         public void onUnfavorite(User user, User user1, Status status) {
-            Message message = new Message("@" + user.getScreenName() + " unfavorited \"" + status.getText() + "\"", 10 * Message.SECOND);
+            Message message = new Message("@" + user.getScreenName() + " unfavorited \"" + status.getText() + "\"", TWITTER_FILTER, 10 * Message.SECOND);
             getQueue().offer(message);
 
 
@@ -75,14 +77,14 @@ public class TwitterProducer extends Producer {
 
         @Override
         public void onFollow(User user, User user1) {
-            Message message = new Message("@" + user.getScreenName() + " started following @" + user1.getScreenName(), 10 * Message.SECOND);
+            Message message = new Message("@" + user.getScreenName() + " started following @" + user1.getScreenName(), TWITTER_FILTER, 10 * Message.SECOND);
             getQueue().offer(message);
 
         }
 
         @Override
         public void onUnfollow(User user, User user1) {
-            Message message = new Message("@" + user.getScreenName() + " stopped following @" + user1.getScreenName(), 10 * Message.SECOND);
+            Message message = new Message("@" + user.getScreenName() + " stopped following @" + user1.getScreenName(), TWITTER_FILTER, 10 * Message.SECOND);
             getQueue().offer(message);
         }
 

@@ -1,6 +1,6 @@
 package serial;
 
-import display.Message;
+import core.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,17 +8,14 @@ import java.util.concurrent.BlockingQueue;
 
 public class SerialConsumer implements Runnable {
 
-    public static final long SECOND = 1000;
 
     private final Logger log = LoggerFactory.getLogger(SerialConsumer.class);
 
     private final BlockingQueue blockingQueue;
-    private final int rate;
     private final SerialConnection serialConnection;
 
     public SerialConsumer(BlockingQueue blockingQueue, SerialConnection serialConnection, int rate) {
         this.blockingQueue = blockingQueue;
-        this.rate = rate;
         this.serialConnection = serialConnection;
     }
 
@@ -29,10 +26,7 @@ public class SerialConsumer implements Runnable {
                 // Get status
                 Message message = (Message) blockingQueue.take();
 
-                // Remove newlines and non ASCII characters
-                String s = message.getText();
-                String msg = s.replaceAll("\n", " ").replaceAll("[^\\x00-\\x7F]", "").replaceAll("https?://\\S+\\s?", "");
-
+                String msg = message.getText();
                 serialConnection.write(msg);
 
                 // Debugging info
