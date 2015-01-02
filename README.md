@@ -7,7 +7,7 @@ Display anything on your four-line LCD display connected to an Arduino microcont
 
 ### Twitter
 
-The twitter module is based on [Twitter4j](http://twitter4j.org/en/index.html) and fetches tweets from your timeline to be displayed. You can also fetch tweets containing a specific keyword. These keywords need to be specified as a comma-separated lists.
+The twitter module is based on [Twitter4j](http://twitter4j.org/en/index.html) and fetches tweets from your timeline to be displayed. You can also fetch tweets containing a specific keyword. These keywords need to be specified as a comma-separated list.
 
 ### Reddit
 
