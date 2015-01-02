@@ -1,4 +1,4 @@
-package twitter;
+package reddit;
 
 import core.Filter;
 

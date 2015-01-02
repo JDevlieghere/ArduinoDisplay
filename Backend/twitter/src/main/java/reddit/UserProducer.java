@@ -1,4 +1,4 @@
-package twitter;
+package reddit;
 
 import core.Filter;
 import org.slf4j.Logger;
@@ -146,7 +146,13 @@ public class UserProducer extends Component {
 
     @Override
     public void run() {
+        log.info(this.toString() + " started.");
         this.twitterStream.addListener(listener);
         this.twitterStream.user();
+    }
+
+    @Override
+    public void stop() {
+        twitterStream.shutdown();
     }
 }

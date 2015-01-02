@@ -1,4 +1,4 @@
-package twitter;
+package reddit;
 
 import core.Component;
 import core.Filter;
@@ -11,7 +11,7 @@ public class StatusProducer extends Component {
 
     public static final Filter TWITTER_FILTER = new TwitterFilter();
 
-    private final Logger log = org.slf4j.LoggerFactory.getLogger(UserProducer.class);
+    private final Logger log = org.slf4j.LoggerFactory.getLogger(StatusProducer.class);
     private final TwitterStream twitterStream;
     private final FilterQuery query;
 
@@ -49,13 +49,19 @@ public class StatusProducer extends Component {
 
         @Override
         public void onStallWarning(StallWarning stallWarning) {
-
+            log.warn(stallWarning.toString());
         }
     };
 
-        @Override
+    @Override
     public void run() {
+        log.info(this.toString() + " started.");
         this.twitterStream.addListener(listener);
         this.twitterStream.filter(query);
+    }
+
+    @Override
+    public void stop() {
+        twitterStream.shutdown();
     }
 }

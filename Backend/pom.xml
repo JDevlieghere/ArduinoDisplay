@@ -36,6 +36,11 @@
             </dependency>
             <dependency>
                 <groupId>com.jonasdevlieghere.arduinodisplay</groupId>
+                <artifactId>reddit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jonasdevlieghere.arduinodisplay</groupId>
                 <artifactId>ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -63,6 +68,7 @@
     <modules>
         <module>core</module>
         <module>twitter</module>
+        <module>reddit</module>
         <module>ui</module>
     </modules>
 

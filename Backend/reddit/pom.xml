@@ -10,8 +10,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>twitter</artifactId>
-    <name>Arduino Display Twitter Module</name>
+    <artifactId>reddit</artifactId>
+    <name>Arduino Display Reddit Module</name>
 
     <properties>
         <exec.mainClass>reddit.TwitterMain</exec.mainClass>
@@ -24,14 +24,9 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.twitter4j</groupId>
-            <artifactId>twitter4j-core</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.twitter4j</groupId>
-            <artifactId>twitter4j-stream</artifactId>
-            <version>4.0.2</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20141113</version>
         </dependency>
     </dependencies>
 

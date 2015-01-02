@@ -17,7 +17,7 @@ public class SerialConsumer extends Component {
 
     @Override
     public void run() {
-        while (true) {
+        while (!isStopped()) {
             try {
                 // Send message
                 Message message = (Message) getQueue().take();

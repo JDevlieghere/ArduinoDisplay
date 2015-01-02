@@ -20,7 +20,7 @@ public class Server
     private final BlockingQueue<Message> queue;
     private final SerialConnection serialConnection;
 
-    private List<Thread> components;
+    private List<Component> components;
 
     public Server()
     {
@@ -41,19 +41,24 @@ public class Server
 
     public void start(){
         // Start All Threads
-        components.forEach(java.lang.Thread::start);
+        for(Component component : components){
+            component.init();
+            new Thread(component).start();
+        }
         // Log
         log.info("Server started");
     }
 
     public void addComponent(Component component){
         component.setQueue(this.queue);
-        components.add(new Thread(component));
+        components.add(component);
     }
 
     public void stop(){
         // Stop all components
-        components.forEach(java.lang.Thread::interrupt);
+        for(Component component : components){
+            component.stop();
+        }
         // Disconnect
         try {
             this.serialConnection.write(DISABLE);
